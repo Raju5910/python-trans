@@ -1,0 +1,45 @@
+import torch
+import torch.utils.data
+import argparse
+from tqdm import tqdm
+
+from dataset import collate_fn, TranslationDataset
+from transformer.Translator import Translator
+from preprocess import read_instances_from_file, convert_instance_to_idx_seq
+
+
+def main():
+    '''Main Function'''
+
+    parser = argparse.ArgumentParser(description='translate.py')
+
+    parser.add_argument('-model', required=True,
+                        help='Path to model .pt file')
+    parser.add_argument('-src', required=True,
+                        help='Source sequence to decode (one line per sequence)')
+    parser.add_argument('-vocab', required=True,
+                        help='Source sequence to decode (one line per sequence)')
+    parser.add_argument('-output', default='translation.txt',
+                        help="""Path to output the predictions (each line will
+                        be the decoded sequence""")
+    parser.add_argument('-beam_size', type=int, default=5,
+                        help='Beam size')
+    parser.add_argument('-batch_size', type=int, default=30,
+                        help='Batch size')
+    parser.add_argument('-n_best', type=int, default=1,
+                        help="""If verbose is set, will output the n_best
+                        decoded sentences""")
+    parser.add_argument('-no_cuda', action='store_true')
+
+    opt = parser.parse_args()
+    opt.cuda = not opt.no_cuda
+
+
+
+
+end_time = time.time() - start_time     
+print("\n")   
+print("",end_time, "Sec")
+print("\n")   
+print(process.memory_info()[0] ,"Bytes")
+print(process.memory_info()[0] / float(2 ** 20),"MB")
